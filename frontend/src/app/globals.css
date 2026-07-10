@@ -1,0 +1,115 @@
+/* ============================================================
+   AWS Route 53 Clone – Global Styles
+   Overrides Cloudscape Design System tokens to match
+   the real AWS console orange primary buttons (#EC7211).
+   ============================================================ */
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* ============================================================
+   🔶 AWS Orange Primary Buttons
+   Cloudscape exposes these CSS custom properties at the
+   :root level. We override them to the real AWS orange.
+   ============================================================ */
+
+/* Light mode */
+:root,
+.awsui-light-mode {
+  --color-background-button-primary-default: #ec7211 !important;
+  --color-background-button-primary-hover: #eb5f07 !important;
+  --color-background-button-primary-active: #d45b07 !important;
+  --color-background-button-primary-disabled: #f5cba7 !important;
+  --color-border-button-primary-default: #ec7211 !important;
+  --color-border-button-primary-hover: #eb5f07 !important;
+  --color-border-button-primary-active: #d45b07 !important;
+  --color-border-button-primary-disabled: #f5cba7 !important;
+  --color-text-button-primary-default: #ffffff !important;
+  --color-text-button-primary-hover: #ffffff !important;
+}
+
+/* Dark mode */
+.awsui-dark-mode {
+  --color-background-button-primary-default: #ec7211 !important;
+  --color-background-button-primary-hover: #eb5f07 !important;
+  --color-background-button-primary-active: #d45b07 !important;
+  --color-background-button-primary-disabled: #7d3909 !important;
+  --color-border-button-primary-default: #ec7211 !important;
+  --color-border-button-primary-hover: #eb5f07 !important;
+  --color-border-button-primary-active: #d45b07 !important;
+  --color-border-button-primary-disabled: #7d3909 !important;
+  --color-text-button-primary-default: #ffffff !important;
+  --color-text-button-primary-hover: #ffffff !important;
+}
+
+/* ============================================================
+   Scoped fallback – target Cloudscape button classes directly
+   for browsers that don't support cascading custom properties
+   at the component level.
+   ============================================================ */
+[class*="awsui"][class*="button"][class*="variant-primary"],
+button[class*="awsui"][class*="variant-primary"] {
+  background: #ec7211 !important;
+  border-color: #ec7211 !important;
+  color: #ffffff !important;
+}
+
+[class*="awsui"][class*="button"][class*="variant-primary"]:hover,
+button[class*="awsui"][class*="variant-primary"]:hover {
+  background: #eb5f07 !important;
+  border-color: #eb5f07 !important;
+}
+
+/* ============================================================
+   Top navigation: match the real AWS dark navy bar
+   ============================================================ */
+#h [class*="awsui"][class*="top-navigation"] {
+  background-color: #161e2d !important;
+}
