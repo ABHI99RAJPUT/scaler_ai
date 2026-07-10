@@ -1,7 +1,7 @@
 const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE || "http://localhost:8000";
 
-alert(API_BASE);
+
 
 // ---------------------------------------------------------------------------
 // Token helpers
