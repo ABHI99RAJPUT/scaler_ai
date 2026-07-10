@@ -1,4 +1,6 @@
 const API_BASE = "https://scaler-ai-z6at.onrender.com";
+console.log(API_BASE);
+console.log(`${API_BASE}/auth/login`);
 
 // ---------------------------------------------------------------------------
 // Token helpers
