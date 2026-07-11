@@ -41,14 +41,14 @@ async function apiFetch(url: string, init: RequestInit = {}) {
 // ---------------------------------------------------------------------------
 export const api = {
   // --- Auth ------------------------------------------------------------------
-  signup: async (data: { email: string; username: string; password: string }) =>
+  signup: async (data: { username: string }) =>
     apiFetch(`${API_BASE}/auth/signup`, {
       method: "POST",
       headers: authHeaders(),
       body: JSON.stringify(data),
     }),
 
-  login: async (data: { username_or_email: string; password: string }) =>
+  login: async (data: { username: string }) =>
     apiFetch(`${API_BASE}/auth/login`, {
       method: "POST",
       headers: authHeaders(),

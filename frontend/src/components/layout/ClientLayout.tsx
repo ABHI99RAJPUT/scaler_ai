@@ -20,19 +20,31 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   // Track whether dark mode is currently active
   const [isDark, setIsDark] = useState(false);
 
-  // Sync isDark state with the actual DOM class (handles page refresh)
+  // Sync isDark state with the actual DOM class and local storage (handles page refresh)
   useEffect(() => {
-    const dark = document.documentElement.classList.contains("awsui-dark-mode");
-    setIsDark(dark);
+    const savedTheme = localStorage.getItem("app-theme");
+    if (savedTheme === "dark") {
+      applyMode(Mode.Dark);
+      setIsDark(true);
+    } else if (savedTheme === "light") {
+      applyMode(Mode.Light);
+      setIsDark(false);
+    } else {
+      // Default to whatever class is currently there if no preference
+      const dark = document.documentElement.classList.contains("awsui-dark-mode");
+      setIsDark(dark);
+    }
   }, []);
 
   const toggleTheme = () => {
     if (isDark) {
       applyMode(Mode.Light);
       setIsDark(false);
+      localStorage.setItem("app-theme", "light");
     } else {
       applyMode(Mode.Dark);
       setIsDark(true);
+      localStorage.setItem("app-theme", "dark");
     }
   };
 

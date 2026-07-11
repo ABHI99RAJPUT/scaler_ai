@@ -2,52 +2,27 @@
 
 import { useState } from "react";
 import {
-  Container,
-  Header,
-  Tabs,
   FormField,
   Input,
   Button,
   SpaceBetween,
   Alert,
-  Link,
 } from "@cloudscape-design/components";
 import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const { login, signup } = useAuth();
+  const { login } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  // Sign-in state
-  const [siUsernameOrEmail, setSiUsernameOrEmail] = useState("");
-  const [siPassword, setSiPassword] = useState("");
-
-  // Sign-up state
-  const [suEmail, setSuEmail] = useState("");
-  const [suUsername, setSuUsername] = useState("");
-  const [suPassword, setSuPassword] = useState("");
-  const [suConfirmPassword, setSuConfirmPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!siUsernameOrEmail || !siPassword) { setError("Please fill in all fields."); return; }
+    if (!username) { setError("Please enter your username."); return; }
     setError(null); setLoading(true);
-    try { await login(siUsernameOrEmail, siPassword); }
+    try { await login(username); }
     catch (err: any) { setError(err.message ?? "Sign-in failed. Please try again."); }
-    finally { setLoading(false); }
-  };
-
-  const handleSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!suEmail || !suUsername || !suPassword || !suConfirmPassword) { setError("Please fill in all fields."); return; }
-    if (suPassword !== suConfirmPassword) { setError("Passwords do not match."); return; }
-    if (suPassword.length < 6) { setError("Password must be at least 6 characters."); return; }
-    setError(null); setLoading(true);
-    try { await signup(suEmail, suUsername, suPassword); }
-    catch (err: any) { setError(err.message ?? "Sign-up failed. Please try again."); }
     finally { setLoading(false); }
   };
 
@@ -104,7 +79,7 @@ export default function Login() {
         }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#EC7211" }} />
           <span style={{ color: "#f0f0f0", fontWeight: 600, fontSize: 15 }}>
-            {activeTab === "signin" ? "Sign in to your account" : "Create a new account"}
+            Sign in to your account
           </span>
         </div>
 
@@ -116,129 +91,28 @@ export default function Login() {
               </Alert>
             )}
 
-            <Tabs
-              activeTabId={activeTab}
-              onChange={({ detail }) => {
-                setActiveTab(detail.activeTabId as "signin" | "signup");
-                setError(null);
-              }}
-              tabs={[
-                {
-                  id: "signin",
-                  label: "Sign in",
-                  content: (
-                    <form onSubmit={handleSignIn}>
-                      <SpaceBetween size="m">
-                        <div style={{ height: 12 }} />
-                        <FormField label="Username or email address">
-                          <Input
-                            value={siUsernameOrEmail}
-                            onChange={({ detail }) => setSiUsernameOrEmail(detail.value)}
-                            placeholder="Enter your username or email"
-                            type="text"
-                            disabled={loading}
-                            autoFocus
-                          />
-                        </FormField>
-                        <FormField label="Password">
-                          <Input
-                            value={siPassword}
-                            onChange={({ detail }) => setSiPassword(detail.value)}
-                            placeholder="Enter your password"
-                            type="password"
-                            disabled={loading}
-                          />
-                        </FormField>
-                        <Button
-                          variant="primary"
-                          formAction="submit"
-                          loading={loading}
-                          fullWidth
-                        >
-                          Sign in
-                        </Button>
-                        <div style={{ textAlign: "center" }}>
-                          <span style={{ color: "#8d9db4", fontSize: 13 }}>
-                            Don&apos;t have an account?{" "}
-                          </span>
-                          <Link
-                            onFollow={() => { setActiveTab("signup"); setError(null); }}
-                          >
-                            Create one
-                          </Link>
-                        </div>
-                      </SpaceBetween>
-                    </form>
-                  ),
-                },
-                {
-                  id: "signup",
-                  label: "Create account",
-                  content: (
-                    <form onSubmit={handleSignUp}>
-                      <SpaceBetween size="m">
-                        <div style={{ height: 12 }} />
-                        <FormField label="Email address">
-                          <Input
-                            value={suEmail}
-                            onChange={({ detail }) => setSuEmail(detail.value)}
-                            placeholder="you@example.com"
-                            type="email"
-                            disabled={loading}
-                            autoFocus
-                          />
-                        </FormField>
-                        <FormField label="Username" description="Used to sign in. No spaces or special characters.">
-                          <Input
-                            value={suUsername}
-                            onChange={({ detail }) => setSuUsername(detail.value)}
-                            placeholder="Choose a username"
-                            type="text"
-                            disabled={loading}
-                          />
-                        </FormField>
-                        <FormField label="Password" description="Minimum 6 characters.">
-                          <Input
-                            value={suPassword}
-                            onChange={({ detail }) => setSuPassword(detail.value)}
-                            placeholder="Create a password"
-                            type="password"
-                            disabled={loading}
-                          />
-                        </FormField>
-                        <FormField label="Confirm password">
-                          <Input
-                            value={suConfirmPassword}
-                            onChange={({ detail }) => setSuConfirmPassword(detail.value)}
-                            placeholder="Repeat your password"
-                            type="password"
-                            disabled={loading}
-                          />
-                        </FormField>
-                        <Button
-                          variant="primary"
-                          formAction="submit"
-                          loading={loading}
-                          fullWidth
-                        >
-                          Create account
-                        </Button>
-                        <div style={{ textAlign: "center" }}>
-                          <span style={{ color: "#8d9db4", fontSize: 13 }}>
-                            Already have an account?{" "}
-                          </span>
-                          <Link
-                            onFollow={() => { setActiveTab("signin"); setError(null); }}
-                          >
-                            Sign in
-                          </Link>
-                        </div>
-                      </SpaceBetween>
-                    </form>
-                  ),
-                },
-              ]}
-            />
+            <form onSubmit={handleSignIn}>
+              <SpaceBetween size="m">
+                <FormField label="Username" description="Enter your username to sign in or create an account.">
+                  <Input
+                    value={username}
+                    onChange={({ detail }) => setUsername(detail.value)}
+                    placeholder="Enter your username"
+                    type="text"
+                    disabled={loading}
+                    autoFocus
+                  />
+                </FormField>
+                <Button
+                  variant="primary"
+                  formAction="submit"
+                  loading={loading}
+                  fullWidth
+                >
+                  Sign in
+                </Button>
+              </SpaceBetween>
+            </form>
           </SpaceBetween>
         </div>
       </div>
